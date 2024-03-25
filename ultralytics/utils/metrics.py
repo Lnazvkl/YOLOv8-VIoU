@@ -124,9 +124,11 @@ def bbox_iou(box1, box2, xywh=True, GIoU=False, DIoU=False, CIoU=False, VIoU=Fal
                     alpha = v / (v - iou + (1 + eps))
                 return iou - (rho2 / c2 + v * alpha)  # CIoU
             elif VIoU:
-                v = (8 / (3 * (math.pi ** 2))) * (
-                             ((torch.atan(w2 / w1) - (math.pi / 4)).pow(2)) + ((torch.atan(h2 / h1) - (math.pi / 4)).pow(2)) + (
-                         (torch.atan((w2 * h2 - w1 * h1) / (w2 * h2))).pow(2)))
+                v = (8 / (3 * (math.pi**2))) * (
+                    ((torch.atan(w2 / w1) - (math.pi / 4)).pow(2))
+                    + ((torch.atan(h2 / h1) - (math.pi / 4)).pow(2))
+                    + ((torch.atan((w2 * h2 - w1 * h1) / (w2 * h2))).pow(2))
+                )
                 with torch.no_grad():
                     alpha = v / (v - iou + (1 + eps))
                 return iou - (rho2 / c2 + v * alpha)  # VIoU
@@ -241,9 +243,11 @@ def probiou(obb1, obb2, CIoU=False, VIoU=False, eps=1e-7):
     elif VIoU:
         w1, h1 = obb1[..., 2:4].split(1, dim=-1)
         w2, h2 = obb2[..., 2:4].split(1, dim=-1)
-        v = (8 / (3 * (math.pi ** 2))) * (
-                            ((torch.atan(w2 / w1) - (math.pi / 4)).pow(2)) + ((torch.atan(h2 / h1) - (math.pi / 4)).pow(2)) + (
-                        (torch.atan((w2 * h2 - w1 * h1) / (w2 * h2))).pow(2)))
+        v = (8 / (3 * (math.pi**2))) * (
+            ((torch.atan(w2 / w1) - (math.pi / 4)).pow(2))
+            + ((torch.atan(h2 / h1) - (math.pi / 4)).pow(2))
+            + ((torch.atan((w2 * h2 - w1 * h1) / (w2 * h2))).pow(2))
+        )
         with torch.no_grad():
             alpha = v / (v - iou + (1 + eps))
         return iou - v * alpha  # VIoU
